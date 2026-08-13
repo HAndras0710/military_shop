@@ -1,0 +1,21 @@
+.search-page {
+  padding: 1.5rem 0;
+
+  h1 {
+    color: #2d3320;
+    font-size: 1.3rem;
+    margin-bottom: 1.25rem;
+  }
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.loading,
+.empty {
+  color: #6b7a4a;
+  font-style: italic;
+}

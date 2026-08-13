@@ -1,0 +1,51 @@
+<div class="container admin-list-page">
+  <div class="header">
+    <h1>Termékek (admin)</h1>
+    <div class="actions">
+      <a routerLink="/admin/termekek/uj" class="btn-primary">+ Új termék</a>
+      <a routerLink="/admin/kategoriak/uj" class="btn-secondary-link">Kategóriák</a>
+      <button class="btn-secondary" (click)="authService.logout()">Kijelentkezés</button>
+    </div>
+  </div>
+
+  @if (loading()) {
+    <p class="loading">Betöltés...</p>
+  } @else if (error()) {
+    <p class="error">{{ error() }}</p>
+  } @else if (products().length === 0) {
+    <p class="empty">Még nincs egyetlen termék sem. Vidd fel az elsőt!</p>
+  } @else {
+    <table>
+      <thead>
+        <tr>
+          <th>Kép</th>
+          <th>SKU</th>
+          <th>Név</th>
+          <th>Tulajdonságok</th>
+          <th>Ár</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (product of products(); track product.id) {
+          <tr>
+            <td class="thumb-cell">
+              @if (product.image?.imageUrl) {
+                <img class="thumb" [src]="product.image!.imageUrl" [alt]="product.sku" />
+              } @else {
+                <span class="no-image">nincs kép</span>
+              }
+            </td>
+            <td>{{ product.sku }}</td>
+            <td>{{ product.description?.name ?? '—' }}</td>
+            <td class="options-cell">{{ optionSummary(product) || '—' }}</td>
+            <td>{{ product.price ?? '—' }} Ft</td>
+            <td>
+              <button class="btn-delete" (click)="onDelete(product.id)">Törlés</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

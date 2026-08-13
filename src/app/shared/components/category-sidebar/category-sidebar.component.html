@@ -1,0 +1,13 @@
+<aside class="category-sidebar">
+  <h3>Kategóriák</h3>
+  <ul>
+    @for (cat of categories(); track cat.slug) {
+      <li>
+        <a
+          [routerLink]="['/kategoria', cat.slug]"
+          routerLinkActive="active"
+        >{{ cat.name }}</a>
+      </li>
+    }
+  </ul>
+</aside>

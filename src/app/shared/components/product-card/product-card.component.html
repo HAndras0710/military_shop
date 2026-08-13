@@ -1,0 +1,16 @@
+<a class="product-card" [routerLink]="['/termek', product().id]">
+  <div class="product-card__image">
+    @if (product().imageUrl) {
+      <img [src]="product().imageUrl" [alt]="product().name" />
+    } @else {
+      <span class="no-image">nincs kép</span>
+    }
+  </div>
+  <div class="product-card__code">{{ product().code }}</div>
+  <h4 class="product-card__name">{{ product().name }}</h4>
+  <div class="product-card__condition">{{ product().condition }}</div>
+  <div class="product-card__footer">
+    <span class="product-card__price">{{ product().price | number:'1.0-0':'hu' }} Ft</span>
+    <button class="product-card__btn" (click)="onAddToCart($event)">Kosárba</button>
+  </div>
+</a>

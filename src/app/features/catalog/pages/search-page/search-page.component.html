@@ -1,0 +1,15 @@
+<div class="container search-page">
+  <h1>Keresés: "{{ query() }}"</h1>
+
+  @if (loading()) {
+    <p class="loading">Keresés folyamatban...</p>
+  } @else if (results().length === 0) {
+    <p class="empty">Nincs találat a keresésre.</p>
+  } @else {
+    <div class="product-grid">
+      @for (product of results(); track product.id) {
+        <app-product-card [product]="product" (addToCart)="onAddToCart($event)" />
+      }
+    </div>
+  }
+</div>

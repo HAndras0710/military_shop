@@ -1,0 +1,78 @@
+<div class="container category-form-page">
+  <h1>Kategóriák</h1>
+
+  @if (success()) {
+    <p class="success">{{ success() }}</p>
+  }
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <h2>Új kategória</h2>
+
+    <label>
+      Kategória neve
+      <input type="text" formControlName="name" placeholder="pl. Bakancsok" />
+    </label>
+
+    <label>
+      Mérettáblázat
+      <select formControlName="sizeScheme">
+        @for (scheme of sizeSchemes; track scheme.code) {
+          <option [value]="scheme.code">{{ scheme.label }}</option>
+        }
+      </select>
+      <small>
+        Ez határozza meg, milyen méreteket ajánl fel a rendszer, amikor ebbe a
+        kategóriába veszel fel terméket.
+      </small>
+    </label>
+
+    <button type="submit" [disabled]="form.invalid || saving()">
+      {{ saving() ? 'Mentés...' : 'Kategória létrehozása' }}
+    </button>
+  </form>
+
+  <section class="existing">
+    <h2>Meglévő kategóriák</h2>
+
+    @if (loadingCategories()) {
+      <p class="loading">Betöltés...</p>
+    } @else if (categories().length === 0) {
+      <p class="loading">Még nincs egyetlen kategória sem.</p>
+    } @else {
+      <table>
+        <thead>
+          <tr>
+            <th>Kategória</th>
+            <th>Mérettáblázat</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (category of categories(); track category.id) {
+            <tr>
+              <td>{{ category.description?.name ?? category.code }}</td>
+              <td>
+                <select
+                  [disabled]="savingCategoryId() === category.id"
+                  (change)="onSchemeChange(category, $event)"
+                >
+                  @for (scheme of sizeSchemes; track scheme.code) {
+                    <option
+                      [value]="scheme.code"
+                      [selected]="scheme.code === schemeOf(category)"
+                    >
+                      {{ scheme.label }}
+                    </option>
+                  }
+                </select>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+      <p class="hint">A választás azonnal mentődik.</p>
+    }
+  </section>
+</div>

@@ -1,0 +1,137 @@
+.admin-list-page {
+  padding: 1.5rem 0;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+
+  h1 {
+    color: #2d3320;
+    font-size: 1.4rem;
+    margin: 0;
+  }
+}
+
+.actions {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.btn-primary {
+  background: #4a5535;
+  color: #fff;
+  text-decoration: none;
+  padding: 0.55rem 1rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+
+  &:hover {
+    background: #6b7a4a;
+  }
+}
+
+.btn-secondary-link {
+  background: none;
+  border: 1px solid #ddd6bf;
+  color: #4a5535;
+  text-decoration: none;
+  padding: 0.55rem 1rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+
+  &:hover {
+    border-color: #4a5535;
+  }
+}
+
+.btn-secondary {
+  background: none;
+  border: 1px solid #ddd6bf;
+  color: #6b7a4a;
+  padding: 0.55rem 1rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  cursor: pointer;
+
+  &:hover {
+    border-color: #b5432b;
+    color: #b5432b;
+  }
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border: 1px solid #e5e0cd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.65rem 1rem;
+  font-size: 0.85rem;
+  border-bottom: 1px solid #eee6cf;
+}
+
+th {
+  background: #f4f2e9;
+  color: #4a5535;
+  font-weight: 600;
+}
+
+.thumb-cell {
+  width: 64px;
+}
+
+.thumb {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid #e5e0cd;
+  display: block;
+  background: #faf9f4;
+}
+
+.no-image {
+  color: #b0ab97;
+  font-size: 0.72rem;
+  font-style: italic;
+}
+
+.options-cell {
+  color: #6b7a4a;
+  font-size: 0.78rem;
+  max-width: 260px;
+}
+
+.btn-delete {
+  background: none;
+  border: none;
+  color: #b5432b;
+  cursor: pointer;
+  font-size: 0.8rem;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.loading,
+.empty,
+.error {
+  color: #6b7a4a;
+  font-style: italic;
+}
+
+.error {
+  color: #b5432b;
+}

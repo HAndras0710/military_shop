@@ -1,0 +1,29 @@
+<div class="page container">
+  <app-category-sidebar />
+
+  <section class="product-list">
+    <div class="product-list__header">
+      <h1>{{ categoryName() }}</h1>
+      <select (change)="onSortChange($event)">
+        <option value="default">Rendezés: alapértelmezett</option>
+        <option value="price-asc">Legolcsóbb elöl</option>
+        <option value="price-desc">Legdrágább elöl</option>
+      </select>
+    </div>
+
+    @if (loading()) {
+      <p class="loading">Termékek betöltése...</p>
+    } @else if (sortedProducts().length === 0) {
+      <p class="empty">Ebben a kategóriában jelenleg nincs termék.</p>
+    } @else {
+      <div class="product-grid">
+        @for (product of sortedProducts(); track product.id) {
+          <app-product-card
+            [product]="product"
+            (addToCart)="onAddToCart($event)"
+          />
+        }
+      </div>
+    }
+  </section>
+</div>

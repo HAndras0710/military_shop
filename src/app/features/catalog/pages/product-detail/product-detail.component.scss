@@ -1,0 +1,156 @@
+.detail-page {
+  padding: 1.5rem 0;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: #6b7a4a;
+  text-decoration: none;
+  font-size: 0.9rem;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 2rem;
+
+  @media (max-width: 700px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.detail-image {
+  background: #f4f2e9;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 280px;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .no-image {
+    color: #b0ab97;
+    font-style: italic;
+  }
+}
+
+.detail-code {
+  font-size: 0.8rem;
+  color: #9a9478;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+
+.detail-info h1 {
+  font-size: 1.4rem;
+  color: #2d3320;
+  margin: 0 0 0.5rem;
+}
+
+.detail-condition {
+  color: #6b7a4a;
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+}
+
+.detail-description {
+  color: #555;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.detail-price {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #b5432b;
+  margin-bottom: 1.25rem;
+}
+
+.size-picker,
+.qty-picker {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+
+  span:first-child {
+    font-size: 0.85rem;
+    color: #4a5535;
+    min-width: 70px;
+  }
+}
+
+.size-options {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+
+  button {
+    padding: 0.35rem 0.7rem;
+    border: 1px solid #ddd6bf;
+    background: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+
+    &.selected {
+      background: #4a5535;
+      color: #fff;
+      border-color: #4a5535;
+    }
+  }
+}
+
+.qty-picker button {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #ddd6bf;
+  background: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.qty-value {
+  min-width: 24px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.add-btn {
+  background: #4a5535;
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+
+  &:hover {
+    background: #6b7a4a;
+  }
+}
+
+.added-msg {
+  color: #4a5535;
+  font-weight: 600;
+  margin-top: 0.75rem;
+}
+
+.loading,
+.empty {
+  color: #6b7a4a;
+  font-style: italic;
+  padding: 2rem 0;
+}

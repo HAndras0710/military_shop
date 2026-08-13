@@ -1,0 +1,55 @@
+<div class="container detail-page">
+  @if (loading()) {
+    <p class="loading">Betöltés...</p>
+  } @else if (!product()) {
+    <p class="empty">A termék nem található. <a routerLink="/">Vissza a főoldalra</a></p>
+  } @else {
+    <a class="back-link" routerLink="/kategoria/{{ product()!.category }}">← Vissza a kategóriához</a>
+
+    <div class="detail-grid">
+      <div class="detail-image">
+        @if (product()!.imageUrl) {
+          <img [src]="product()!.imageUrl" [alt]="product()!.name" />
+        } @else {
+          <span class="no-image">nincs kép</span>
+        }
+      </div>
+
+      <div class="detail-info">
+        <div class="detail-code">{{ product()!.code }}</div>
+        <h1>{{ product()!.name }}</h1>
+        <div class="detail-condition">Állapot: {{ product()!.condition }}</div>
+        <p class="detail-description">{{ product()!.description }}</p>
+
+        <div class="detail-price">{{ product()!.price | number:'1.0-0':'hu' }} Ft</div>
+
+        @if (product()!.sizes.length > 0) {
+          <div class="size-picker">
+            <span>Méret:</span>
+            <div class="size-options">
+              @for (size of product()!.sizes; track size) {
+                <button
+                  [class.selected]="selectedSize() === size"
+                  (click)="selectSize(size)"
+                >{{ size }}</button>
+              }
+            </div>
+          </div>
+        }
+
+        <div class="qty-picker">
+          <span>Mennyiség:</span>
+          <button (click)="decreaseQty()">−</button>
+          <span class="qty-value">{{ quantity() }}</span>
+          <button (click)="increaseQty()">+</button>
+        </div>
+
+        <button class="add-btn" (click)="onAddToCart()">Kosárba teszem</button>
+
+        @if (addedMessage()) {
+          <p class="added-msg">✓ Termék hozzáadva a kosárhoz!</p>
+        }
+      </div>
+    </div>
+  }
+</div>

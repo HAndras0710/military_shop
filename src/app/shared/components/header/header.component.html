@@ -1,0 +1,30 @@
+<header class="site-header">
+  <div class="top-bar">
+    <div class="container top-bar__inner">
+      <a routerLink="/" class="logo">MILITARY-SHOP.HU <span class="logo__demo">(demo)</span></a>
+
+      <div class="search">
+        <input
+          type="text"
+          placeholder="Keresés termékek között..."
+          [(ngModel)]="searchQuery"
+          (keyup.enter)="onSearch()"
+          name="search"
+        />
+        <button (click)="onSearch()" aria-label="Keresés">🔍</button>
+      </div>
+
+      <nav class="top-links">
+        <a routerLink="/informacio" routerLinkActive="active">Információ</a>
+        <a routerLink="/kapcsolat" routerLinkActive="active">Kapcsolat</a>
+        <a routerLink="/admin/termekek" routerLinkActive="active" class="admin-link">⚙ Admin</a>
+        <a routerLink="/kosar" routerLinkActive="active" class="cart-link">
+          🛒 Kosár
+          @if (itemCount() > 0) {
+            <span class="cart-badge">{{ itemCount() }}</span>
+          }
+        </a>
+      </nav>
+    </div>
+  </div>
+</header>

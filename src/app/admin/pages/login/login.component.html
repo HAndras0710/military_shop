@@ -1,0 +1,26 @@
+<div class="container login-page">
+  <div class="login-card">
+    <h1>Admin bejelentkezés</h1>
+    <p class="subtitle">Shopizer backend: <code>localhost:8080</code></p>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <label>
+        Felhasználónév
+        <input type="text" formControlName="username" />
+      </label>
+
+      <label>
+        Jelszó
+        <input type="password" formControlName="password" />
+      </label>
+
+      @if (error()) {
+        <p class="error">{{ error() }}</p>
+      }
+
+      <button type="submit" [disabled]="form.invalid || loading()">
+        {{ loading() ? 'Bejelentkezés...' : 'Bejelentkezés' }}
+      </button>
+    </form>
+  </div>
+</div>

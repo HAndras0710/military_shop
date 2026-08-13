@@ -1,0 +1,154 @@
+<div class="container product-form-page">
+  <h1>Új termék felvitele</h1>
+
+  @if (success()) {
+    <p class="success">{{ success() }}</p>
+  }
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+
+  @if (loadingCategories()) {
+    <p class="loading">Kategóriák betöltése...</p>
+  } @else if (categories().length === 0) {
+    <p class="error">
+      Nincs egyetlen kategória sem a backend-en. Előbb hozz létre legalább egyet
+      a <a routerLink="/admin/kategoriak/uj">Kategóriák</a> oldalon.
+    </p>
+  } @else {
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <label>
+        Termék neve
+        <input type="text" formControlName="name" />
+      </label>
+
+      <label>
+        Cikkszám (SKU)
+        <input type="text" formControlName="sku" placeholder="pl. UJ6538" />
+      </label>
+
+      <label>
+        Kategória
+        <select formControlName="categoryId">
+          <option [ngValue]="null" disabled>Válassz kategóriát...</option>
+          @for (cat of categories(); track cat.id) {
+            <option [ngValue]="cat.id">{{ cat.description?.name ?? cat.code }}</option>
+          }
+        </select>
+      </label>
+
+      <div class="row">
+        <label>
+          Ár (Ft)
+          <input type="number" formControlName="price" min="0" />
+        </label>
+
+        <label>
+          Készlet (db)
+          <input type="number" formControlName="quantity" min="0" />
+        </label>
+      </div>
+
+      <!-- Méretek: a kategóriához beállított mérettáblázat szerint -->
+      <fieldset>
+        <legend>Méretek</legend>
+
+        @if (!selectedCategoryId()) {
+          <p class="hint">Előbb válassz kategóriát.</p>
+        } @else if (availableSizes().length === 0) {
+          <p class="hint">
+            Ehhez a kategóriához nincs mérettáblázat beállítva. Ha kellene, állítsd be a
+            <a routerLink="/admin/kategoriak/uj">Kategóriák</a> oldalon (ruha- vagy lábbeli méret).
+          </p>
+        } @else {
+          <p class="hint">{{ sizeScheme().label }} - jelöld be, ami elérhető:</p>
+          <div class="chips">
+            @for (size of availableSizes(); track size.code) {
+              <label
+                class="chip"
+                [class.selected]="selectedSizes().has(size.code)"
+              >
+                <input
+                  type="checkbox"
+                  [checked]="selectedSizes().has(size.code)"
+                  (change)="toggleSize(size.code)"
+                />
+                {{ size.label }}
+              </label>
+            }
+          </div>
+        }
+      </fieldset>
+
+      <!-- Színek -->
+      <fieldset>
+        <legend>Színek</legend>
+        <div class="chips">
+          @for (color of colors; track color.code) {
+            <label class="chip" [class.selected]="selectedColors().has(color.code)">
+              <input
+                type="checkbox"
+                [checked]="selectedColors().has(color.code)"
+                (change)="toggleColor(color.code)"
+              />
+              <span class="swatch" [style.background]="color.hex"></span>
+              {{ color.label }}
+            </label>
+          }
+        </div>
+      </fieldset>
+
+      <label>
+        Állapot
+        <select formControlName="condition">
+          <option value="">Nincs megadva</option>
+          @for (condition of conditions; track condition.code) {
+            <option [value]="condition.code">{{ condition.label }}</option>
+          }
+        </select>
+      </label>
+
+      <!-- Képek -->
+      <fieldset>
+        <legend>Képek</legend>
+
+        <input
+          type="file"
+          accept="image/*"
+          multiple
+          (change)="onFilesSelected($event)"
+        />
+        <p class="hint">
+          Több képet is kijelölhetsz. A feltöltés a termék mentésekor történik.
+        </p>
+
+        @if (images().length > 0) {
+          <div class="image-grid">
+            @for (image of images(); track image.previewUrl; let i = $index) {
+              <div class="image-item" [class.is-default]="defaultImageIndex() === i">
+                <img [src]="image.previewUrl" [alt]="image.file.name" />
+                <div class="image-actions">
+                  <button type="button" class="link" (click)="setDefaultImage(i)">
+                    {{ defaultImageIndex() === i ? '★ Fő kép' : 'Legyen fő kép' }}
+                  </button>
+                  <button type="button" class="link danger" (click)="removeImage(i)">
+                    Törlés
+                  </button>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </fieldset>
+
+      <label>
+        Leírás
+        <textarea formControlName="description" rows="4"></textarea>
+      </label>
+
+      <button type="submit" [disabled]="form.invalid || saving()">
+        {{ saving() ? (status() || 'Mentés...') : 'Termék létrehozása' }}
+      </button>
+    </form>
+  }
+</div>

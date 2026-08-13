@@ -1,0 +1,59 @@
+<div class="container cart-page">
+  <h1>Kosár</h1>
+
+  @if (items().length === 0) {
+    <p class="empty-cart">
+      A kosarad üres. <a routerLink="/">Nézz szét a termékek között</a>.
+    </p>
+  } @else {
+    <div class="cart-list">
+      @for (item of items(); track item.product.id + (item.size ?? '')) {
+        <div class="cart-item">
+          <div class="cart-item__image">
+            @if (item.product.imageUrl) {
+              <img [src]="item.product.imageUrl" [alt]="item.product.name" />
+            }
+          </div>
+
+          <div class="cart-item__info">
+            <a [routerLink]="['/termek', item.product.id]" class="cart-item__name">
+              {{ item.product.name }}
+            </a>
+            <div class="cart-item__meta">
+              {{ item.product.code }}
+              @if (item.size) { · Méret: {{ item.size }} }
+            </div>
+          </div>
+
+          <div class="cart-item__qty">
+            <button (click)="updateQuantity(item.product.id, item.size, item.quantity - 1)">−</button>
+            <span>{{ item.quantity }}</span>
+            <button (click)="updateQuantity(item.product.id, item.size, item.quantity + 1)">+</button>
+          </div>
+
+          <div class="cart-item__price">
+            {{ (item.product.price * item.quantity) | number:'1.0-0':'hu' }} Ft
+          </div>
+
+          <button class="cart-item__remove" (click)="removeItem(item.product.id, item.size)" aria-label="Eltávolítás">
+            🗑
+          </button>
+        </div>
+      }
+    </div>
+
+    <div class="cart-summary">
+      <button class="clear-btn" (click)="clearCart()">Kosár ürítése</button>
+      <div class="cart-total">
+        Végösszeg: <strong>{{ totalPrice() | number:'1.0-0':'hu' }} Ft</strong>
+      </div>
+    </div>
+
+    <button class="checkout-btn" disabled title="Ez a demo nem tartalmaz valódi rendelésleadást">
+      Tovább a pénztárhoz →
+    </button>
+    <p class="checkout-note">
+      * Ez egy demó alkalmazás valódi backend nélkül, ezért a rendelésleadás nincs bekötve.
+    </p>
+  }
+</div>
