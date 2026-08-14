@@ -1,5 +1,5 @@
 <div class="container product-form-page">
-  <h1>Új termék felvitele</h1>
+  <h1>{{ isEditMode() ? 'Termék szerkesztése' : 'Új termék felvitele' }}</h1>
 
   @if (success()) {
     <p class="success">{{ success() }}</p>
@@ -8,8 +8,8 @@
     <p class="error">{{ error() }}</p>
   }
 
-  @if (loadingCategories()) {
-    <p class="loading">Kategóriák betöltése...</p>
+  @if (loadingCategories() || loadingProduct()) {
+    <p class="loading">{{ loadingProduct() ? 'Termék betöltése...' : 'Kategóriák betöltése...' }}</p>
   } @else if (categories().length === 0) {
     <p class="error">
       Nincs egyetlen kategória sem a backend-en. Előbb hozz létre legalább egyet
@@ -25,6 +25,9 @@
       <label>
         Cikkszám (SKU)
         <input type="text" formControlName="sku" placeholder="pl. UJ6538" />
+        @if (isEditMode()) {
+          <small>A SKU szerkesztéskor nem módosítható (a feltöltött képek erre épülnek).</small>
+        }
       </label>
 
       <label>
@@ -112,6 +115,35 @@
       <fieldset>
         <legend>Képek</legend>
 
+        @if (isEditMode() && existingImages().length > 0) {
+          <p class="hint">Jelenlegi képek:</p>
+          <div class="image-grid">
+            @for (image of existingImages(); track image.id) {
+              <div class="image-item" [class.is-default]="image.defaultImage">
+                <img [src]="image.imageUrl" [alt]="image.imageName ?? ''" />
+                <div class="image-actions">
+                  @if (image.defaultImage) {
+                    <span class="default-badge">★ Fő kép</span>
+                  } @else {
+                    <span></span>
+                  }
+                  <button
+                    type="button"
+                    class="link danger"
+                    [disabled]="removingImageId() === image.id"
+                    (click)="removeExistingImage(image)"
+                  >
+                    {{ removingImageId() === image.id ? 'Törlés...' : 'Törlés' }}
+                  </button>
+                </div>
+              </div>
+            }
+          </div>
+          <p class="hint">
+            Ha másik legyen a fő kép, töröld a jelenlegit, és töltsd fel újra fő képként.
+          </p>
+        }
+
         <input
           type="file"
           accept="image/*"
@@ -119,7 +151,7 @@
           (change)="onFilesSelected($event)"
         />
         <p class="hint">
-          Több képet is kijelölhetsz. A feltöltés a termék mentésekor történik.
+          {{ isEditMode() ? 'Új képek hozzáadása - a mentéskor töltődnek fel.' : 'Több képet is kijelölhetsz. A feltöltés a termék mentésekor történik.' }}
         </p>
 
         @if (images().length > 0) {
@@ -147,7 +179,7 @@
       </label>
 
       <button type="submit" [disabled]="form.invalid || saving()">
-        {{ saving() ? (status() || 'Mentés...') : 'Termék létrehozása' }}
+        {{ saving() ? (status() || 'Mentés...') : (isEditMode() ? 'Mentés' : 'Termék létrehozása') }}
       </button>
     </form>
   }

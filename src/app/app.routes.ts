@@ -35,6 +35,12 @@ export const routes: Routes = [
     title: 'Admin - Új termék',
   },
   {
+    path: 'admin/termekek/:id/szerkesztes',
+    component: ProductFormComponent,
+    canActivate: [authGuard],
+    title: 'Admin - Termék szerkesztése',
+  },
+  {
     path: 'admin/kategoriak/uj',
     component: CategoryFormComponent,
     canActivate: [authGuard],

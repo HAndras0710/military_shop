@@ -35,6 +35,16 @@ label {
     font-size: 0.9rem;
     font-family: inherit;
   }
+
+  input:disabled {
+    background: #f4f2e9;
+    color: #8a8a7a;
+  }
+
+  small {
+    color: #8a8a7a;
+    font-size: 0.75rem;
+  }
 }
 
 .row {
@@ -151,8 +161,15 @@ fieldset {
 .image-actions {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   gap: 0.25rem;
   margin-top: 0.3rem;
+}
+
+.default-badge {
+  font-size: 0.72rem;
+  color: #6b7a4a;
+  font-weight: 600;
 }
 
 button.link {
@@ -167,6 +184,12 @@ button.link {
   &:hover {
     text-decoration: underline;
     background: none;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    text-decoration: none;
   }
 
   &.danger {

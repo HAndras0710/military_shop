@@ -70,15 +70,24 @@ export interface ShopizerImage {
 export interface ShopizerProduct {
   id: number;
   sku: string;
+  available?: boolean;
+  visible?: boolean;
+  productShipeable?: boolean;
   /** Sima szám, pl. 12000.0 - nem objektum! */
   price?: number;
   /** Formázott ár, pl. "12 000,00 EUR" - a bolt pénznem-beállítása szerint */
   originalPrice?: string;
   quantity?: number;
   description?: ShopizerDescription;
+  categories?: { id: number }[];
   image?: ShopizerImage;
   images?: ShopizerImage[];
   options?: ReadableProductOption[];
+}
+
+/** Ugyanaz, mint a létrehozás payloadja, csak az "id" is kötelező - ezt várja a PUT. */
+export interface ShopizerProductUpdate extends ShopizerProductCreate {
+  id: number;
 }
 
 /* --- Opciók (méret / szín / állapot) --- */
@@ -127,4 +136,15 @@ export interface ShopizerAttributeCreate {
   sortOrder: number;
   attributeDefault: boolean;
   attributeDisplayOnly: boolean;
+}
+
+/** Egy termékhez már hozzárendelt attribútum - ez kell a törléshez (attributeId). */
+export interface ShopizerProductAttribute {
+  id: number;
+  option: { code: string };
+  optionValue: { code: string };
+}
+
+export interface ShopizerAttributeListResponse {
+  attributes: ShopizerProductAttribute[];
 }

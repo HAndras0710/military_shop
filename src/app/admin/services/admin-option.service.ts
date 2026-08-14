@@ -5,8 +5,10 @@ import { catchError, last, map, switchMap, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import {
   ShopizerAttributeCreate,
+  ShopizerAttributeListResponse,
   ShopizerOptionListResponse,
   ShopizerOptionValueListResponse,
+  ShopizerProductAttribute,
 } from '../models/admin.model';
 import { OptionDef, OptionValueDef } from '../models/attribute-schemes';
 
@@ -47,6 +49,21 @@ export class AdminOptionService {
         // Sorban, nem párhuzamosan: a Shopizer így megbízhatóbban kezeli az írásokat.
         return concat(...calls).pipe(last(), map(() => void 0));
       })
+    );
+  }
+
+  /** Egy termékhez már hozzárendelt méret/szín/állapot attribútumok, szerkesztéshez kell. */
+  getAttributes(productId: number): Observable<ShopizerProductAttribute[]> {
+    return this.http
+      .get<ShopizerAttributeListResponse>(
+        `${this.base}/${productId}/attributes?${this.storeParams}`
+      )
+      .pipe(map((res) => res.attributes ?? []));
+  }
+
+  removeAttribute(productId: number, attributeId: number): Observable<void> {
+    return this.http.delete<void>(
+      `${this.base}/${productId}/attribute/${attributeId}?${this.storeParams}`
     );
   }
 

@@ -40,7 +40,8 @@
             <td>{{ product.description?.name ?? '—' }}</td>
             <td class="options-cell">{{ optionSummary(product) || '—' }}</td>
             <td>{{ product.price ?? '—' }} Ft</td>
-            <td>
+            <td class="actions-cell">
+              <a [routerLink]="['/admin/termekek', product.id, 'szerkesztes']" class="btn-edit">Szerkesztés</a>
               <button class="btn-delete" (click)="onDelete(product.id)">Törlés</button>
             </td>
           </tr>

@@ -2,7 +2,12 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { ShopizerImage, ShopizerProduct, ShopizerProductCreate } from '../models/admin.model';
+import {
+  ShopizerImage,
+  ShopizerProduct,
+  ShopizerProductCreate,
+  ShopizerProductUpdate,
+} from '../models/admin.model';
 
 @Injectable({ providedIn: 'root' })
 export class AdminProductService {
@@ -17,6 +22,18 @@ export class AdminProductService {
   createProduct(product: ShopizerProductCreate): Observable<{ id: number }> {
     return this.http.post<{ id: number }>(
       `${environment.apiUrl}/v1/private/product?store=DEFAULT`,
+      product
+    );
+  }
+
+  /**
+   * FIGYELEM: ez felülírja a termék alapadatait (név, ár, készlet, kategória, leírás),
+   * de a méret/szín/állapot attribútumokat és a képeket NEM érinti, ha kihagyod őket -
+   * azokat külön végponton kell kezelni (lásd AdminOptionService).
+   */
+  updateProduct(id: number, product: ShopizerProductUpdate): Observable<void> {
+    return this.http.put<void>(
+      `${environment.apiUrl}/v1/private/product/${id}?store=DEFAULT&lang=en`,
       product
     );
   }
