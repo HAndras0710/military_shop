@@ -20,6 +20,8 @@ export class ProductDetailComponent {
   product = signal<Product | undefined>(undefined);
   loading = signal(true);
   selectedSize = signal<string | null>(null);
+  /** Melyik kép látszik épp nagyban - a galéria-miniatűrökre kattintva vált. */
+  selectedImage = signal<string>('');
   quantity = signal(1);
   addedMessage = signal(false);
 
@@ -32,6 +34,7 @@ export class ProductDetailComponent {
         this.productService.getProductById(id).subscribe(p => {
           this.product.set(p);
           this.selectedSize.set(p?.sizes.length ? p.sizes[0] : null);
+          this.selectedImage.set(p?.images?.[0] ?? p?.imageUrl ?? '');
           this.quantity.set(1);
           this.loading.set(false);
         });
@@ -41,6 +44,10 @@ export class ProductDetailComponent {
 
   selectSize(size: string) {
     this.selectedSize.set(size);
+  }
+
+  selectImage(url: string) {
+    this.selectedImage.set(url);
   }
 
   increaseQty() {

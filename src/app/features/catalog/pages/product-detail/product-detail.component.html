@@ -7,11 +7,28 @@
     <a class="back-link" routerLink="/kategoria/{{ product()!.category }}">← Vissza a kategóriához</a>
 
     <div class="detail-grid">
-      <div class="detail-image">
-        @if (product()!.imageUrl) {
-          <img [src]="product()!.imageUrl" [alt]="product()!.name" />
-        } @else {
-          <span class="no-image">nincs kép</span>
+      <div class="detail-gallery">
+        <div class="detail-image">
+          @if (selectedImage()) {
+            <img [src]="selectedImage()" [alt]="product()!.name" />
+          } @else {
+            <span class="no-image">nincs kép</span>
+          }
+        </div>
+
+        @if (product()!.images.length > 1) {
+          <div class="detail-thumbs">
+            @for (img of product()!.images; track img) {
+              <button
+                type="button"
+                class="detail-thumb"
+                [class.selected]="selectedImage() === img"
+                (click)="selectImage(img)"
+              >
+                <img [src]="img" [alt]="product()!.name" />
+              </button>
+            }
+          </div>
         }
       </div>
 

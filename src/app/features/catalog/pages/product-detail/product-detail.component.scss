@@ -24,6 +24,12 @@
   }
 }
 
+.detail-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
 .detail-image {
   background: #f4f2e9;
   border-radius: 8px;
@@ -42,6 +48,39 @@
   .no-image {
     color: #b0ab97;
     font-style: italic;
+  }
+}
+
+.detail-thumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.detail-thumb {
+  width: 56px;
+  height: 56px;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: 6px;
+  background: #f4f2e9;
+  cursor: pointer;
+  overflow: hidden;
+  flex-shrink: 0;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  &:hover {
+    border-color: #ddd6bf;
+  }
+
+  &.selected {
+    border-color: #4a5535;
   }
 }
 

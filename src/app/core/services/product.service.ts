@@ -88,12 +88,23 @@ function optionValueNames(product: ShopizerReadableProduct, optionCode: string):
   );
 }
 
+/** A termék képei, fő kép elöl, utána feltöltési sorrendben. */
+function imageUrls(raw: ShopizerReadableProduct): string[] {
+  const images = [...(raw.images ?? [])].sort((a, b) => {
+    if (!!a.defaultImage !== !!b.defaultImage) return a.defaultImage ? -1 : 1;
+    return (a.order ?? 0) - (b.order ?? 0);
+  });
+  return images.map((i) => i.imageUrl).filter((url): url is string => !!url);
+}
+
 function mapProduct(raw: ShopizerReadableProduct): Product | null {
   // A friendlyUrl-t használjuk azonosítóként (id helyett), mert a Shopizer
   // GET /product/{id} végpontja ezen a backend-verzión hibázik - a
   // friendlyUrl alapú lekérés viszont megbízhatóan működik.
   const slug = raw.description?.friendlyUrl;
   if (!slug) return null;
+
+  const images = imageUrls(raw);
 
   return {
     id: slug,
@@ -105,6 +116,7 @@ function mapProduct(raw: ShopizerReadableProduct): Product | null {
     condition: optionValueNames(raw, OPTION_CODE_CONDITION)[0] ?? '',
     sizes: optionValueNames(raw, OPTION_CODE_SIZE),
     colors: optionValueNames(raw, OPTION_CODE_COLOR),
-    imageUrl: raw.image?.imageUrl ?? '',
+    imageUrl: raw.image?.imageUrl ?? images[0] ?? '',
+    images,
   };
 }

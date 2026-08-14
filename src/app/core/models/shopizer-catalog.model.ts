@@ -27,6 +27,7 @@ export interface ShopizerReadableOption {
 export interface ShopizerReadableImage {
   imageUrl?: string;
   defaultImage?: boolean;
+  order?: number;
 }
 
 export interface ShopizerReadableProduct {
@@ -38,6 +39,8 @@ export interface ShopizerReadableProduct {
   categories?: ShopizerReadableCategory[];
   options?: ShopizerReadableOption[];
   image?: ShopizerReadableImage;
+  /** A termék összes képe (a fő kép is benne van) - a részletek oldal galériájához. */
+  images?: ShopizerReadableImage[];
 }
 
 export interface ShopizerCategoryListResponse {

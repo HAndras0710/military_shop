@@ -17,4 +17,6 @@ export interface Product {
   colors: string[];
   /** A termék fő képe. Üres, ha még nincs kép feltöltve hozzá. */
   imageUrl: string;
+  /** A termék összes képe, a fő kép elöl - a termék részletek oldal galériájához. */
+  images: string[];
 }
