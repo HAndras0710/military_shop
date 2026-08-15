@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { HomePageComponent } from './features/home/pages/home-page/home-page.component';
 import { ProductListComponent } from './features/catalog/pages/product-list/product-list.component';
 import { ProductDetailComponent } from './features/catalog/pages/product-detail/product-detail.component';
 import { SearchPageComponent } from './features/catalog/pages/search-page/search-page.component';
@@ -12,7 +13,8 @@ import { CategoryFormComponent } from './admin/pages/category-form/category-form
 import { authGuard } from './admin/services/auth.guard';
 
 export const routes: Routes = [
-  { path: '', component: ProductListComponent, title: 'Military Shop Demo - Kezdőlap' },
+  { path: '', component: HomePageComponent, title: 'Military Shop Demo - Kezdőlap' },
+  { path: 'termekek', component: ProductListComponent, title: 'Összes termék' },
   { path: 'kategoria/:slug', component: ProductListComponent, title: 'Kategória' },
   { path: 'termek/:id', component: ProductDetailComponent, title: 'Termék' },
   { path: 'kereses', component: SearchPageComponent, title: 'Keresés' },

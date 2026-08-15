@@ -1,0 +1,56 @@
+<section class="hero">
+  <div class="hero__viewport">
+    @for (slide of slides; track slide.title; let i = $index) {
+      <div class="hero__slide hero__slide--theme{{ slide.theme }}" [class.active]="activeSlideIndex() === i">
+        <div class="container hero__content">
+          <h1>{{ slide.title }}</h1>
+          <p>{{ slide.subtitle }}</p>
+          <a
+            class="hero__cta"
+            [routerLink]="slide.ctaCategorySlug ? ['/kategoria', slide.ctaCategorySlug] : ['/termekek']"
+          >
+            {{ slide.ctaLabel }}
+          </a>
+        </div>
+      </div>
+    }
+  </div>
+
+  @if (slides.length > 1) {
+    <button type="button" class="hero__arrow hero__arrow--prev" (click)="prev()" aria-label="Előző">‹</button>
+    <button type="button" class="hero__arrow hero__arrow--next" (click)="next()" aria-label="Következő">›</button>
+
+    <div class="hero__dots">
+      @for (slide of slides; track slide.title; let i = $index) {
+        <button
+          type="button"
+          class="hero__dot"
+          [class.active]="activeSlideIndex() === i"
+          (click)="goTo(i)"
+          [attr.aria-label]="'Ugrás a(z) ' + (i + 1) + '. diára'"
+        ></button>
+      }
+    </div>
+  }
+</section>
+
+<section class="container categories">
+  <h2>Kategóriák</h2>
+
+  @if (loadingCategories()) {
+    <p class="loading">Kategóriák betöltése...</p>
+  } @else {
+    <div class="category-grid">
+      @for (cat of categories(); track cat.slug) {
+        <a class="category-tile" [routerLink]="['/kategoria', cat.slug]">
+          <span class="category-tile__mark">✦</span>
+          <span class="category-tile__name">{{ cat.name }}</span>
+        </a>
+      }
+      <a class="category-tile category-tile--all" routerLink="/termekek">
+        <span class="category-tile__mark">☰</span>
+        <span class="category-tile__name">Összes termék</span>
+      </a>
+    </div>
+  }
+</section>
